@@ -1,0 +1,134 @@
+<dialog #dialog class="" id="basicModal" x-data="{ open: false } ">
+  <div
+    x-show="open"
+    class="relative z-10"
+    aria-labelledby="modal-title"
+    x-ref="dialog"
+    aria-modal="true"
+  >
+   
+
+    <div class="fixed z-10 inset-0 overflow-y-auto  ">
+      <div
+        class="flex items-end sm:items-center justify-center min-h-full p-2 text-center sm:p-0 "
+      >
+          <div class=" bg-black w-3/4 relative text-center mx-10 rounded-lg">
+            <div>
+              <div class="h-20">
+                <h3
+                  class="text-2xl text-center font-medium text-gray-100 translate-y-1/2  "
+                  id="modal-title"
+                >
+                  {{ titulo }}
+                </h3>
+              </div>
+                <div class="mt-2 mx-28 ">
+                  <p class="text-sm text-gray-100 ">
+                    @if (contenido === 'No hay un estudiante seleccionado') {
+                    {{ contenido }}
+                    } @else { 
+                      @for (inscripcion of dataEstudiante; track inscripcion.grupo.codigo) {
+                      <div class=" grid mb-8 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 md:mb-12 md:grid-cols-2 bg-white dark:bg-gray-950 opacity-90 hover:bg-slate-900">
+                            <!-- hidden slide -->
+                            <div class=" w-full m-4 rounded-lg text-center text-lg font-semibold dark:text-white">
+                              <p class="">
+                                {{ inscripcion.grupo.codigo }}
+                                {{ inscripcion.grupo.asignatura.nombre }}
+                              </p>
+                              <p class="my-2">{{ inscripcion.grupo.profesor.nombre }}</p>
+                              <p class="my-2">Horario: {{ inscripcion.grupo.horario }}</p>
+                              <p class="my-2">
+                                Horas Semana: {{ inscripcion.grupo.horasSemana }} (Creditos:
+                                {{ inscripcion.grupo.horasSemana / 3 | number : "1.0-0" }})
+                              </p>
+                              <p class="my-2">
+                                Fecha de inscripcion: {{ inscripcion.grupo.anio }}
+                              </p>
+                            </div>
+                            <div class="w-full "> 
+                              <div class="grid max-w-screen-xl grid-cols-2  gap-8 p-4 mx-auto  sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8 ">
+                                @for (nota of inscripcion.notas; track nota) {
+                                <!-- Notas -->
+                                <div class="flex flex-col items-center justify-center text-lg">  
+                                  @if (nota < 3.0) {
+                                  <div
+                                    class=""
+                                  >
+                                    <p class="">&rarr;</p>
+                                    <p class="">Nota</p>
+                                  </div>
+                                  } @else {
+                                  <div
+                                    class=""
+                                  >
+                                    <p class="">
+                                      &rarr;
+                                    </p>
+                                    <p class="">Nota</p>
+                                  </div>
+                                  }
+                                  <p
+                                    class=""
+                                  >
+                                    {{ nota | number : "1.0-1" }}
+                                  </p>
+                                </div>
+                                }
+                                <!-- Notas -->
+                                <div class="text-lg">
+                                  
+                                  @if ((inscripcion.definitiva < 3.0) || (inscripcion.inasistencia >
+                                  inscripcion.grupo.semanas * inscripcion.grupo.horasSemana * 0.15))
+                                  {
+                                  <div
+                                    class="text-lg"
+                                  >
+                                    <p class="">&rarr;</p>
+                                    <p class="">Nota</p>
+                                  </div>
+                                  } @else {
+                                  <div
+                                    class="text-lg"
+                                  >
+                                    <p class="">
+                                      &rarr;
+                                    </p>
+                                    <p class="text-violet-500">Definitiva</p>
+                                  </div>
+                                  } @if (inscripcion.inasistencia < inscripcion.grupo.semanas *
+                                  inscripcion.grupo.horasSemana * 0.15) {
+                                  <p
+                                    class="text-lg"
+                                  >
+                                    {{ inscripcion.definitiva | number : "1.0-1" }}
+                                  </p>
+                                  } @else {
+                                  <p
+                                    class="text-lg text-red-700"
+                                  >
+                                    {{ 2.9 | number : "1.0-1" }} (inasistencia)
+                                  </p>
+                                  }
+                                </div>
+                              </div>
+                            </div>
+                            <!-- main -->
+                            
+                          </div>
+                      } 
+                    }
+                </div>
+              </div>
+              <button
+              type="button "
+              class="text-white bg-gradient-to-r from-purple-700 via-purple-900 to-blue-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-4 "
+              (click)="dialog.close()"
+            >
+              Salir
+            </button>
+            </div>
+           </div>
+          </div>
+        </div>
+    
+</dialog>

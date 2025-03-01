@@ -1,0 +1,77 @@
+<!-- component -->
+<div class="font-sans  text-white ">
+  <div
+    class="bg-cover bg-center h-screen" style="background-image: url('./assets/image4.jpeg')"
+  >
+    <div class="absolute top-0 left-0 h-screen w-1/3 bg-black opacity-75 ">
+      
+      <div class=" relative w-full rounded-3xl px-6 py-4 my-28 shadow-md">
+        <label class="block mt-3 text-2xl  text-white text-center font-semibold">
+          Lista de Estudiantes
+        </label>
+        <form method="#" action="#" class="mt-10">
+          <select
+            (change)="getDataEstudiante(estudiantes.value)"
+            #estudiantes
+            class="bg-gray-700 border border-gray-500 text-white text-sm rounded-lg focus:ring-gray-500 focus:border-gray-50 block w-full p-2.5 my-4"
+          >
+            <option  value="">Seleccione un estudiante</option>
+            @for (estudiante of getEstudiantes(); track estudiante.codigo) {
+            <option value="{{ estudiante.codigo }}">
+              {{ estudiante.nombre }}
+            </option>
+            }
+          </select>
+          <input
+            type="text"
+            id="codigo"
+            class="mt-1  mx-10 my-2  w-3/4  bg-gray-800 h-11 rounded-xl  hover:bg-gray-700 focus:bg-gray-200 focus:ring-0 p-3 text-center text-lg"
+            [value]="codigo"
+            placeholder="Código"
+            disabled
+            readonly
+          />
+          <input
+            type="text"
+            id="id"
+            class="mt-1  mx-10 my-2  w-3/4  bg-gray-800 h-11 rounded-xl  hover:bg-gray-700 focus:bg-gray-200 focus:ring-0 p-3 text-center text-lg"
+            [value]="identificacion"
+            placeholder="Identificación"
+            disabled
+            readonly
+          />
+          <input
+            type="text"
+            class="mt-1  mx-10 my-2  w-3/4  bg-gray-800 h-11 rounded-xl  hover:bg-gray-700 focus:bg-gray-200 focus:ring-0 p-3 text-center text-lg"
+            [value]="nombre"
+            placeholder="Nombre"
+            disabled
+            readonly
+          />
+          <button
+            (click)="modal.show()"
+            type="button"
+            class="w-full my-4 pb-4 text-white bg-gradient-to-br from-purple-900 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          >
+            @if (dataEstudiante) { Ver inscripciones de
+            {{ dataEstudiante.estudiante.nombre }}
+            } @else { Ver inscripciones }
+          </button>
+        </form>
+      </div>
+    </div>
+  <div class="absolute top-1/3 right-1/4 h-30 w-1/4 text-center bg-black opacity-75m text-4xl font-mono hover:bg-red-800 rounded-lg m-2">
+    <p class="m-4">!!Felicidades Sobreviviste¡¡</p>
+  </div>
+  <app-modal
+    #modal
+    contenido="{{
+      (dataEstudiante
+        ? dataEstudiante.info
+        : 'No hay un estudiante seleccionado'
+      ) | json
+    }}"
+    titulo="{{ nombre || '&#128533;' }}"
+  >
+  </app-modal>
+</div>
